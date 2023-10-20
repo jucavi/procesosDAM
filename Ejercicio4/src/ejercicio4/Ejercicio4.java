@@ -28,6 +28,15 @@ public class Ejercicio4 {
         if (Files.exists(parentPath) && Files.isDirectory(parentPath)) {
             listDir(parentPath);
 
+            String strNewFolder = getInput("Introdusca el nombre de la carpeta que desea crear: ");
+            Path folderPath = Paths.get(parentPath.toString(), strNewFolder);
+
+            if (!Files.exists(folderPath)) {
+                mkdir(folderPath);
+            } else {
+                System.out.println("La carpeta ya existe o el nombre no es válido.");
+            }
+
         } else {
             System.out.println("La ruta no existe o no es un directorio: " + parentPath.toString());
         }
@@ -66,21 +75,30 @@ public class Ejercicio4 {
             listCmd = new String[]{"bash", "-c", "ls -la", path.toString()};
         }
 
-        if (listCmd != null) {
+        try {
+            ProcessBuilder ps = new ProcessBuilder(listCmd);
+            Process proc = ps.start();
 
-            try {
-                ProcessBuilder ps = new ProcessBuilder(listCmd);
-                Process proc = ps.start();
-
-                BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    System.out.println(line);
-                }
-                br.close();
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
+            BufferedReader br = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
             }
+            br.close();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public static void mkdir(Path path) {
+        try {
+            Files.createDirectory(path);
+
+            if (Files.exists(path)) {
+                System.out.println("La carpeta ha sido creada correctamente.");
+            }
+        } catch (IOException ex) {
+            System.out.println("No ha sido posible crear la carpeta: " + path.toString());
         }
     }
 }
