@@ -63,7 +63,7 @@ public class Ejercicio4 {
         if (osName.toUpperCase().contains("WIN")) {
             listCmd = new String[]{"cmd.exe", "/c", "dir", path.toString()};
         } else {
-            listCmd = new String[]{"bash", "-c", "ls", "-la", path.toString()};
+            listCmd = new String[]{"bash", "-c", "ls -la", path.toString()};
         }
 
         if (listCmd != null) {
