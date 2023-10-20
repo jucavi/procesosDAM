@@ -24,7 +24,6 @@ public class Ejercicio4 {
     public static void main(String[] args) {
         String strPath = getInput("Introduzca la ruta donde desea crear la nueva carpeta: ");
         Path parentPath = absPath(strPath);
-
         if (Files.exists(parentPath) && Files.isDirectory(parentPath)) {
             listDir(parentPath);
 
@@ -72,7 +71,7 @@ public class Ejercicio4 {
         if (osName.toUpperCase().contains("WIN")) {
             listCmd = new String[]{"cmd.exe", "/c", "dir", path.toString()};
         } else {
-            listCmd = new String[]{"bash", "-c", "ls -la", path.toString()};
+            listCmd = new String[]{"bash", "-c", "ls -la " + path.toString()};
         }
 
         try {
